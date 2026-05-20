@@ -8,7 +8,10 @@ const NEWSLETTER_SLUG = "newsletter";
 const NEWSLETTER_SOURCE = "newsletter";
 
 type NewsletterPayload = {
+  first_name?: string;
+  last_name?: string;
   email?: string;
+  job_title?: string;
   source?: string;
 };
 
@@ -33,10 +36,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Requête invalide." }, { status: 400 });
   }
 
+  const firstName = body.first_name?.trim();
+  const lastName = body.last_name?.trim();
   const email = body.email?.trim().toLowerCase();
+  const jobTitle = body.job_title?.trim();
+
+  if (!firstName) {
+    return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
+  }
+
+  if (!lastName) {
+    return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
+  }
 
   if (!email || !isValidEmail(email)) {
     return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
+  }
+
+  if (!jobTitle) {
+    return NextResponse.json({ ok: false, message: "Métier invalide." }, { status: 400 });
   }
 
   const supabase = getSupabaseAdmin();
@@ -64,7 +82,10 @@ export async function POST(request: NextRequest) {
   const source = body.source?.trim() || NEWSLETTER_SOURCE;
 
   const { error: insertError } = await supabase.from("leads").insert({
+    first_name: firstName,
+    last_name: lastName,
     email,
+    job_title: jobTitle,
     document_slug: NEWSLETTER_SLUG,
     redirect_url: getNewsletterRedirectUrl(),
     source
