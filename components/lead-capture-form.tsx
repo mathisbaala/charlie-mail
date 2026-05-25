@@ -150,7 +150,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
 
         <input
@@ -162,7 +162,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       </div>
 
@@ -193,7 +193,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
               setCustomJobTitle("");
             }
           }}
-          className={`${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         >
           <option value="">Sélectionnez votre métier</option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
@@ -227,21 +227,21 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           required
           value={customJobTitle}
           onChange={(event) => setCustomJobTitle(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
         />
       ) : null}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`${fieldHeightClass} w-full rounded-xl bg-accent-500 px-4 ${fieldPaddingClass} ${submitTextClass} font-semibold leading-6 text-white transition hover:bg-accent-600 disabled:cursor-not-allowed disabled:opacity-70 sm:leading-5`}
+        className={`${fieldHeightClass} w-full rounded-lg bg-ink-900 px-4 ${fieldPaddingClass} ${submitTextClass} font-medium tracking-wide leading-6 text-ink-50 transition hover:bg-accent-500 disabled:cursor-not-allowed disabled:opacity-70 sm:leading-5`}
       >
         {isSubmitting ? "Chargement..." : "Accéder au document"}
       </button>
 
       {errorMessage ? <p className="text-sm leading-relaxed text-red-600">{errorMessage}</p> : null}
 
-      <p className="text-xs text-ink-500">Accès immédiat après validation</p>
+      <p className="text-[10px] uppercase tracking-[0.14em] text-ink-500">Accès immédiat après validation</p>
     </form>
   );
 }

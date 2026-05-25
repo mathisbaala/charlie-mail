@@ -38,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${manrope.variable} ${fraunces.variable} bg-ink-50 text-ink-900 antialiased`}>
+      <body className={`${manrope.variable} ${fraunces.variable} bg-ink-50 text-ink-900 antialiased`} style={{ fontFeatureSettings: '"kern" 1, "liga" 1' }}>
         {children}
       </body>
     </html>
