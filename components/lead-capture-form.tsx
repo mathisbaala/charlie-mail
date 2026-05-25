@@ -176,7 +176,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className={`${fieldHeightClass} w-full min-w-0 rounded-xl border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+        className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
       />
 
       <div className="relative">
