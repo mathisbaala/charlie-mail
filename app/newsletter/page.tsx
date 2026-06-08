@@ -118,7 +118,7 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
 
             <h1 className="mx-auto w-full max-w-[48rem] text-center text-[clamp(1.5rem,5vw,2.15rem)] font-normal leading-[1.15] text-ink-900" style={{ fontFamily: "var(--font-serif)" }}>
               Recevez chaque semaine les idées IA concrètes pour conseillers{" "}
-              <em style={{ fontStyle: "italic", color: "#B5683A" }}>financiers.</em>
+              <em style={{ fontStyle: "italic", color: "#9A4222" }}>financiers.</em>
             </h1>
 
             <div className="mx-auto w-full max-w-[44rem]">

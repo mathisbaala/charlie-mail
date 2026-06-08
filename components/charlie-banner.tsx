@@ -6,7 +6,7 @@ export function CharlieBanner() {
     <div
       className="relative overflow-hidden rounded-xl sm:rounded-2xl"
       style={{
-        background: "linear-gradient(160deg, #F5EFE6 0%, #EBE2D2 55%, #E2D6C2 100%)"
+        background: "linear-gradient(160deg, #FCFAF4 0%, #F4EFE4 55%, #E2DACB 100%)"
       }}
     >
       <div className="flex flex-col gap-4 px-5 py-6 sm:flex-row sm:items-center sm:gap-7 sm:px-8 sm:py-7 lg:min-h-[9.5rem] lg:px-10 lg:py-9">
@@ -44,7 +44,7 @@ export function CharlieBanner() {
               fontFamily: "var(--font-serif)",
               fontStyle: "italic",
               textDecoration: "underline",
-              textDecorationColor: "#8b3a2e",
+              textDecorationColor: "#9A4222",
               textDecorationThickness: "2px",
               textUnderlineOffset: "4px"
             }}

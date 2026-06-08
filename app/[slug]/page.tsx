@@ -145,7 +145,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
 
             <h1 className="mx-auto w-full max-w-[48rem] text-center text-[clamp(1.5rem,5vw,2.15rem)] font-normal leading-[1.15] text-ink-900" style={{ fontFamily: "var(--font-serif)" }}>
               Téléchargez les playbooks IA que les meilleurs conseillers{" "}
-              <em style={{ fontStyle: "italic", color: "#B5683A" }}>utilisent déjà.</em>
+              <em style={{ fontStyle: "italic", color: "#9A4222" }}>utilisent déjà.</em>
             </h1>
 
             <div className="mx-auto w-full max-w-[44rem]">

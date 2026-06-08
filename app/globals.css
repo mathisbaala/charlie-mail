@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background-soft: radial-gradient(circle at 50% -20%, #FAF5EC 0%, #F2EAD8 42%, #EBE2D2 100%);
+  --background-soft: radial-gradient(circle at 50% -20%, #FBF7EF 0%, #F4EFE4 42%, #ECE4D5 100%);
 }
 
 * {
