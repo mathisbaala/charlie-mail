@@ -66,7 +66,7 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
                   href={founder.linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg border border-ink-200 bg-ink-100 px-3 py-2 text-sm font-medium text-ink-700 transition hover:bg-ink-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/30"
+                  className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border border-ink-200 bg-ink-100 px-3 py-2 text-sm font-medium text-ink-700 transition hover:bg-ink-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/30"
                   aria-label={`Voir le profil LinkedIn de ${founder.name}`}
                 >
                   <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 fill-current">
@@ -83,7 +83,7 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
               href="https://www.charliefinancialadvisor.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex max-w-full items-center gap-2.5"
+              className="inline-flex min-h-11 max-w-full items-center gap-2.5"
               aria-label={`Aller sur le site ${branding.companyName}`}
             >
               <Image
@@ -103,7 +103,7 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-medium text-ink-700 transition hover:bg-ink-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/30"
+                  className="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-ink-700 transition hover:bg-ink-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/30"
                 >
                   {link.label}
                 </a>
