@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background-soft: radial-gradient(circle at 50% -20%, #FBF7EF 0%, #F4EFE4 42%, #ECE4D5 100%);
+  /* Fond neutre/lin aligné Charlie Prospection — surfaces quasi-achromatiques,
+     aucune teinte chaude (cf. charte Charlie Investissement). */
+  --background-soft: radial-gradient(circle at 50% -20%, oklch(0.975 0.004 90) 0%, oklch(0.965 0.005 90) 42%, oklch(0.95 0.006 90) 100%);
 }
 
 * {
