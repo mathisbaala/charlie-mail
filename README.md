@@ -148,8 +148,10 @@ Ajouter uniquement une ligne dans Supabase:
 
 ```sql
 insert into public.documents (slug, name, redirect_url)
-values ('guide', 'Guide', 'https://notion.so/votre-guide');
+values ('guide', 'Guide', 'https://www.charliefinance.fr/ressources/votre-guide');
 ```
+
+Le `redirect_url` pointe vers une page de la rubrique ressources du site (plus vers Notion).
 
 La landing fonctionne ensuite directement sur:
 

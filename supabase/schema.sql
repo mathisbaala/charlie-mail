@@ -40,9 +40,10 @@ alter table public.leads enable row level security;
 -- Server-side writes/reads use SUPABASE_SERVICE_ROLE_KEY from Next.js API/server.
 -- No anon policies needed for this implementation.
 
-insert into public.documents (slug, name, redirect_url)
-values
-  ('facebook', 'Facebook Guide', 'https://notion.so/facebook-guide'),
-  ('instagram', 'Instagram Guide', 'https://notion.so/instagram-guide'),
-  ('papers', 'Papers', 'https://notion.so/papers')
-on conflict (slug) do nothing;
+-- Les documents (slug -> page de redirection) sont gérés directement en base.
+-- Chaque redirect_url doit pointer vers une page de la rubrique ressources du site,
+-- par ex. 'https://www.charliefinance.fr/ressources/mon-guide'.
+-- Exemple:
+-- insert into public.documents (slug, name, redirect_url)
+-- values ('mon-guide', 'Mon guide', 'https://www.charliefinance.fr/ressources/mon-guide')
+-- on conflict (slug) do nothing;

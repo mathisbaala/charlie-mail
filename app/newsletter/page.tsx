@@ -36,10 +36,10 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
   ] as const;
 
   const charlieLinks = [
-    { label: "Home", href: "https://www.charliefinancialadvisor.com" },
-    { label: "About", href: "https://www.charliefinancialadvisor.com/about" },
-    { label: "Articles", href: "https://www.charliefinancialadvisor.com/articles" },
-    { label: "Contact", href: "https://www.charliefinancialadvisor.com/contact" }
+    { label: "Home", href: "https://www.charliefinance.fr" },
+    { label: "About", href: "https://www.charliefinance.fr/about" },
+    { label: "Ressources", href: "https://www.charliefinance.fr/ressources" },
+    { label: "Contact", href: "https://www.charliefinance.fr/contact" }
   ] as const;
 
   return (
@@ -80,7 +80,7 @@ export default async function NewsletterPage({ searchParams }: NewsletterPagePro
 
           <div className="flex flex-col rounded-xl border border-ink-200/50 bg-ink-50 p-3.5 lg:flex-1">
             <a
-              href="https://www.charliefinancialadvisor.com"
+              href="https://www.charliefinance.fr"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-11 max-w-full items-center gap-2.5"
