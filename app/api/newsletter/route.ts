@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { branding } from "@/lib/config/branding";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import {
+  JOB_TITLE_MAX_LENGTH,
+  checkRateLimit,
+  getClientIp,
+  isAcceptableEmail,
+  sanitizeName
+} from "@/lib/validation";
 
 export const runtime = "nodejs";
 
@@ -15,10 +22,6 @@ type NewsletterPayload = {
   source?: string;
 };
 
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 function getNewsletterRedirectUrl() {
   try {
     return new URL("/newsletter", branding.siteUrl).toString();
@@ -28,6 +31,13 @@ function getNewsletterRedirectUrl() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!checkRateLimit(getClientIp(request))) {
+    return NextResponse.json(
+      { ok: false, message: "Trop de demandes. Réessayez dans une minute." },
+      { status: 429 }
+    );
+  }
+
   let body: NewsletterPayload;
 
   try {
@@ -36,10 +46,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Requête invalide." }, { status: 400 });
   }
 
-  const firstName = body.first_name?.trim();
-  const lastName = body.last_name?.trim();
-  const email = body.email?.trim().toLowerCase();
-  const jobTitle = body.job_title?.trim();
+  const firstName = sanitizeName(body.first_name);
+  const lastName = sanitizeName(body.last_name);
+  const email = String(body.email ?? "").trim().toLowerCase();
+  const jobTitle = sanitizeName(body.job_title, JOB_TITLE_MAX_LENGTH);
 
   if (!firstName) {
     return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
@@ -49,7 +59,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
   }
 
-  if (!email || !isValidEmail(email)) {
+  if (!isAcceptableEmail(email)) {
     return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
   }
 
