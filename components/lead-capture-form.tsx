@@ -145,6 +145,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           id="first_name"
           name="first_name"
           type="text"
+          maxLength={80}
           autoComplete="given-name"
           placeholder="Prénom"
           required
@@ -157,6 +158,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
           id="last_name"
           name="last_name"
           type="text"
+          maxLength={80}
           autoComplete="family-name"
           placeholder="Nom"
           required
@@ -170,6 +172,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
         id="email"
         name="email"
         type="email"
+        maxLength={254}
         inputMode="email"
         autoComplete="email"
         placeholder="vous@entreprise.com"
@@ -222,6 +225,7 @@ export function LeadCaptureForm({ slug, compact = false }: LeadCaptureFormProps)
         <input
           id="job_title_other"
           name="job_title_other"
+          maxLength={120}
           type="text"
           placeholder="Précisez votre métier"
           required
