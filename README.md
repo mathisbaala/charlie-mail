@@ -2,6 +2,24 @@
 
 Capture email dynamique pour Charlie.
 
+> **La table `public.leads` est partagée avec un autre projet.** Elle est écrite
+> ici (capture) et lue par `charlie-newsletter` (envoi de la newsletter). Toucher
+> à `email`, `first_name`, `newsletter_opt_in`, `unsubscribed_at` ou
+> `suppression_reason` affecte les deux. Ces colonnes sont décrites dans
+> `supabase/schema.sql` : elles ont longtemps été créées à la main côté
+> newsletter, si bien que rejouer le schéma produisait une table où plus aucun
+> envoi n'était possible.
+>
+> Une ligne par téléchargement, volontairement : une même adresse apparaît autant
+> de fois qu'elle a demandé de documents. Ce ne sont pas des doublons à purger,
+> c'est l'historique de ce qui intéresse chaque prospect. L'envoi déduplique de
+> son côté.
+>
+> Les limites de saisie de `lib/validation.ts` (80 caractères pour un nom) sont
+> plus larges que celles de l'envoi (40, le prénom préfixant un sujet limité à
+> 2 000 caractères par Resend). Un prénom trop long est tronqué à l'envoi, jamais
+> rejeté : l'écart est voulu.
+
 Landing pages disponibles:
 - dynamique via `/<slug>` (document + redirection)
 - statique via `/newsletter` (inscription newsletter)
