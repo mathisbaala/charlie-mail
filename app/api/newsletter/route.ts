@@ -1,24 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { branding } from "@/lib/config/branding";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import {
-  JOB_TITLE_MAX_LENGTH,
-  checkRateLimit,
-  getClientIp,
-  isAcceptableEmail,
-  sanitizeName
-} from "@/lib/validation";
+import { leadColumns, readLeadFields, type LeadFieldsPayload } from "@/lib/lead-fields";
+import { checkRateLimit, getClientIp } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
 const NEWSLETTER_SLUG = "newsletter";
 const NEWSLETTER_SOURCE = "newsletter";
 
-type NewsletterPayload = {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  job_title?: string;
+/* Huit champs depuis le 31/08/2026, sept exigés — voir `lib/qualification.ts`
+   pour la décision. La lecture et la validation vivent dans `lib/lead-fields.ts`,
+   partagées avec la route de téléchargement : deux copies pour huit champs
+   auraient divergé, et une divergence ici donne deux fiches inégales pour la
+   même personne selon la porte qu'elle a poussée. */
+type NewsletterPayload = LeadFieldsPayload & {
   source?: string;
 };
 
@@ -46,26 +42,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Requête invalide." }, { status: 400 });
   }
 
-  const firstName = sanitizeName(body.first_name);
-  const lastName = sanitizeName(body.last_name);
-  const email = String(body.email ?? "").trim().toLowerCase();
-  const jobTitle = sanitizeName(body.job_title, JOB_TITLE_MAX_LENGTH);
+  const champs = readLeadFields(body);
 
-  if (!firstName) {
-    return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
+  if (!champs.ok) {
+    return NextResponse.json({ ok: false, message: champs.message }, { status: 400 });
   }
 
-  if (!lastName) {
-    return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
-  }
-
-  if (!isAcceptableEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
-  }
-
-  if (!jobTitle) {
-    return NextResponse.json({ ok: false, message: "Métier invalide." }, { status: 400 });
-  }
+  const { email } = champs.fields;
 
   const supabase = getSupabaseAdmin();
 
@@ -92,10 +75,7 @@ export async function POST(request: NextRequest) {
   const source = body.source?.trim() || NEWSLETTER_SOURCE;
 
   const { error: insertError } = await supabase.from("leads").insert({
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    job_title: jobTitle,
+    ...leadColumns(champs.fields),
     document_slug: NEWSLETTER_SLUG,
     redirect_url: getNewsletterRedirectUrl(),
     source

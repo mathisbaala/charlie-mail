@@ -25,6 +25,18 @@ alter table public.leads
   add column if not exists last_name text,
   add column if not exists job_title text;
 
+-- Les cinq champs du 31/08/2026 : les mêmes coordonnées partout où Charlie en
+-- recueille (ce site, la landing, le screener). Voir
+-- `supabase/migrations/20260831_les_memes_champs_partout.sql` pour la décision.
+-- Aucune n'est `not null` : les 2 400 abonnés déjà en base n'ont rien de tout
+-- ça, et c'est le code qui exige ces champs à l'entrée.
+alter table public.leads
+  add column if not exists company text,
+  add column if not exists phone text,
+  add column if not exists aum text,
+  add column if not exists team_size text,
+  add column if not exists linkedin text;
+
 -- Colonnes consommées par l'autre projet, charlie-newsletter, qui lit cette même
 -- table pour constituer sa liste d'envoi. Elles ont longtemps été créées à la
 -- main côté newsletter et n'apparaissaient pas ici : rejouer ce schéma sur un

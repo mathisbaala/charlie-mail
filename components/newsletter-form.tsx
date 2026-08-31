@@ -1,6 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import {
+  EMPTY_LEAD_FIELDS,
+  LeadFields,
+  leadFieldsBody,
+  validateLeadFields,
+  type LeadFieldValues
+} from "@/components/lead-fields";
 
 type NewsletterResponse = {
   ok: boolean;
@@ -8,46 +15,22 @@ type NewsletterResponse = {
   message?: string;
 };
 
-const OTHER_JOB_VALUE = "Autre";
-
-const FINANCIAL_ADVISORY_JOB_FAMILIES = [
-  {
-    label: "Banque",
-    jobs: ["Banquier privé", "Conseiller en financement"]
-  },
-  {
-    label: "Assurance",
-    jobs: ["Courtier en assurance", "Assureur", "Mutualiste", "Conseiller en protection sociale"]
-  },
-  {
-    label: "Gestion",
-    jobs: [
-      "Conseiller en gestion de patrimoine",
-      "Family office",
-      "Gérant de fonds",
-      "Conseiller en investissements financiers (CIF)",
-      "Gestionnaire de portefeuille",
-      "Conseiller en gestion de fortune",
-      "Conseiller retraite et prévoyance"
-    ]
-  }
-] as const;
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 type NewsletterFormProps = {
   source?: string;
   compact?: boolean;
 };
 
+/**
+ * Inscription à la newsletter Intelligence Patrimoine.
+ *
+ * Les champs eux-mêmes vivent dans `components/lead-fields.tsx`, partagés avec
+ * le formulaire de téléchargement : les deux doivent recueillir exactement la
+ * même chose, sinon la fiche d'une personne dépend de la porte qu'elle a
+ * poussée. Ce fichier ne garde que ce qui lui est propre — la route appelée et
+ * ce qu'on répond une fois l'inscription prise.
+ */
 export function NewsletterForm({ source, compact = false }: NewsletterFormProps) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [customJobTitle, setCustomJobTitle] = useState("");
+  const [values, setValues] = useState<LeadFieldValues>(EMPTY_LEAD_FIELDS);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -57,41 +40,9 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
 
     if (isSubmitting) return;
 
-    const normalizedFirstName = firstName.trim();
-    const normalizedLastName = lastName.trim();
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedJobTitle = jobTitle.trim();
-    const normalizedCustomJobTitle = customJobTitle.trim();
-    const resolvedJobTitle =
-      normalizedJobTitle === OTHER_JOB_VALUE ? normalizedCustomJobTitle : normalizedJobTitle;
-
-    if (!normalizedFirstName) {
-      setErrorMessage("Veuillez renseigner votre prénom.");
-      return;
-    }
-
-    if (!normalizedLastName) {
-      setErrorMessage("Veuillez renseigner votre nom.");
-      return;
-    }
-
-    if (!normalizedEmail) {
-      setErrorMessage("Veuillez renseigner votre email.");
-      return;
-    }
-
-    if (!isValidEmail(normalizedEmail)) {
-      setErrorMessage("Email invalide.");
-      return;
-    }
-
-    if (!normalizedJobTitle) {
-      setErrorMessage("Veuillez sélectionner votre métier.");
-      return;
-    }
-
-    if (normalizedJobTitle === OTHER_JOB_VALUE && !normalizedCustomJobTitle) {
-      setErrorMessage("Veuillez préciser votre métier.");
+    const probleme = validateLeadFields(values);
+    if (probleme) {
+      setErrorMessage(probleme);
       return;
     }
 
@@ -103,13 +54,7 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          first_name: normalizedFirstName,
-          last_name: normalizedLastName,
-          email: normalizedEmail,
-          job_title: resolvedJobTitle,
-          source
-        })
+        body: JSON.stringify({ ...leadFieldsBody(values), source })
       });
 
       const payload: NewsletterResponse = await response.json();
@@ -123,11 +68,7 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
           ? "Vous êtes déjà inscrit à la newsletter Charlie."
           : "Inscription validée. Bienvenue dans la newsletter Charlie."
       );
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setJobTitle("");
-      setCustomJobTitle("");
+      setValues(EMPTY_LEAD_FIELDS);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Erreur inattendue.";
       setErrorMessage(message);
@@ -147,100 +88,18 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
 
   return (
     <form className={formSpacingClasses} onSubmit={handleSubmit} noValidate>
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
-        <input
-          id="first_name"
-          name="first_name"
-          type="text"
-          maxLength={80}
-          autoComplete="given-name"
-          placeholder="Prénom"
-          required
-          value={firstName}
-          onChange={(event) => setFirstName(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
-        />
-
-        <input
-          id="last_name"
-          name="last_name"
-          type="text"
-          maxLength={80}
-          autoComplete="family-name"
-          placeholder="Nom"
-          required
-          value={lastName}
-          onChange={(event) => setLastName(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
-        />
-      </div>
-
-      <input
-        id="email"
-        name="email"
-        type="email"
-        maxLength={254}
-        inputMode="email"
-        autoComplete="email"
-        placeholder="vous@entreprise.com"
-        required
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/80 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
+      <LeadFields
+        values={values}
+        onChange={setValues}
+        disabled={isSubmitting}
+        styles={{
+          fieldHeightClass,
+          fieldPaddingClass,
+          fieldTextClass,
+          selectRightPaddingClass,
+          compact
+        }}
       />
-
-      <div className="relative">
-        <select
-          id="job_title"
-          name="job_title"
-          required
-          value={jobTitle}
-          onChange={(event) => {
-            const selectedJob = event.target.value;
-            setJobTitle(selectedJob);
-
-            if (selectedJob !== OTHER_JOB_VALUE) {
-              setCustomJobTitle("");
-            }
-          }}
-          className={`${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
-        >
-          <option value="">Sélectionnez votre métier</option>
-          {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
-            <optgroup key={family.label} label={family.label}>
-              {family.jobs.map((jobOption) => (
-                <option key={jobOption} value={jobOption}>
-                  {jobOption}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-          <option value={OTHER_JOB_VALUE}>{OTHER_JOB_VALUE}</option>
-        </select>
-
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={`pointer-events-none absolute right-4 top-1/2 ${compact ? "h-4 w-4" : "h-5 w-5"} -translate-y-1/2 text-ink-500`}
-        >
-          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-        </svg>
-      </div>
-
-      {jobTitle === OTHER_JOB_VALUE ? (
-        <input
-          id="job_title_other"
-          name="job_title_other"
-          maxLength={120}
-          type="text"
-          placeholder="Précisez votre métier"
-          required
-          value={customJobTitle}
-          onChange={(event) => setCustomJobTitle(event.target.value)}
-          className={`${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`}
-        />
-      ) : null}
 
       <button
         type="submit"

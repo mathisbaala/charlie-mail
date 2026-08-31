@@ -1,20 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import {
-  JOB_TITLE_MAX_LENGTH,
-  checkRateLimit,
-  getClientIp,
-  isAcceptableEmail,
-  sanitizeName
-} from "@/lib/validation";
+import { leadColumns, readLeadFields, type LeadFieldsPayload } from "@/lib/lead-fields";
+import { checkRateLimit, getClientIp } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-type CapturePayload = {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  job_title?: string;
+/* Les mêmes huit champs que l'inscription à la newsletter, plus le document
+   demandé. La lecture est partagée (`lib/lead-fields.ts`) : ces deux routes
+   doivent recueillir exactement la même chose, sans quoi la fiche d'un abonné
+   dépendrait de la porte qu'il a poussée. */
+type CapturePayload = LeadFieldsPayload & {
   slug?: string;
   source?: string;
 };
@@ -55,26 +50,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Requête invalide." }, { status: 400 });
   }
 
-  const firstName = sanitizeName(body.first_name);
-  const lastName = sanitizeName(body.last_name);
-  const email = String(body.email ?? "").trim().toLowerCase();
-  const jobTitle = sanitizeName(body.job_title, JOB_TITLE_MAX_LENGTH);
   const slug = body.slug?.trim().toLowerCase();
+  const champs = readLeadFields(body);
 
-  if (!firstName) {
-    return NextResponse.json({ ok: false, message: "Prénom invalide." }, { status: 400 });
-  }
-
-  if (!lastName) {
-    return NextResponse.json({ ok: false, message: "Nom invalide." }, { status: 400 });
-  }
-
-  if (!isAcceptableEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Email invalide." }, { status: 400 });
-  }
-
-  if (!jobTitle) {
-    return NextResponse.json({ ok: false, message: "Métier invalide." }, { status: 400 });
+  if (!champs.ok) {
+    return NextResponse.json({ ok: false, message: champs.message }, { status: 400 });
   }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
@@ -109,10 +89,7 @@ export async function POST(request: NextRequest) {
   const source = body.source?.trim() || null;
 
   const { error: insertError } = await supabase.from("leads").insert({
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    job_title: jobTitle,
+    ...leadColumns(champs.fields),
     document_slug: document.slug,
     redirect_url: redirectUrl,
     source
