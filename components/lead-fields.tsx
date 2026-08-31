@@ -22,7 +22,7 @@
 
 import { AUM_RANGES, TEAM_SIZES } from "@/lib/qualification";
 
-export const OTHER_JOB_VALUE = "Autre";
+const OTHER_JOB_VALUE = "Autre";
 
 const FINANCIAL_ADVISORY_JOB_FAMILIES = [
   {
@@ -115,7 +115,7 @@ export function leadFieldsBody(values: LeadFieldValues) {
   };
 }
 
-export type LeadFieldsStyles = {
+type LeadFieldsStyles = {
   fieldHeightClass: string;
   fieldPaddingClass: string;
   fieldTextClass: string;

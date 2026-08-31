@@ -55,7 +55,7 @@ export type LeadFields = {
   linkedin: string | null;
 };
 
-export type LeadFieldsResult =
+type LeadFieldsResult =
   | { ok: true; fields: LeadFields }
   | { ok: false; message: string };
 

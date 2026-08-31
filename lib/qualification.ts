@@ -27,7 +27,7 @@
 //    seule garde possible est cet avertissement. **Toute retouche d'un libellé
 //    se fait DES TROIS CÔTÉS, le même jour.**
 
-export type Option = { value: string; label: string };
+type Option = { value: string; label: string };
 
 /** L'effectif de la structure. */
 export const TEAM_SIZES: readonly Option[] = [
@@ -62,7 +62,7 @@ export function isAumRange(value: string): boolean {
 
 export const COMPANY_MAX_LENGTH = 120;
 export const PHONE_MAX_LENGTH = 30;
-export const LINKEDIN_MAX_LENGTH = 300;
+const LINKEDIN_MAX_LENGTH = 300;
 
 /**
  * Numéro plausible : des chiffres, et les séparateurs qu'on tape vraiment.
