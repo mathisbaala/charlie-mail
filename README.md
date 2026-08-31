@@ -27,13 +27,13 @@ Landing pages disponibles:
 Flow:
 1. L'utilisateur ouvre `/<slug>`
 2. La page charge le document depuis Supabase (`documents`)
-3. L'utilisateur renseigne prénom, nom, email et métier
+3. L'utilisateur renseigne les huit champs (voir « Ce qu'on demande » plus bas)
 4. L'API enregistre le lead dans Supabase (`leads`)
 5. Redirection immédiate vers `redirect_url`
 
 Flow newsletter:
 1. L'utilisateur ouvre `/newsletter`
-2. Il renseigne son email
+2. Il renseigne les huit mêmes champs qu'au téléchargement d'un document
 3. L'API enregistre dans Supabase (`leads`) avec `document_slug = newsletter`
 4. Message de confirmation sur la page
 
@@ -181,3 +181,48 @@ La landing fonctionne ensuite directement sur:
 npm install
 npm run dev
 ```
+
+
+## Ce qu'on demande, et pourquoi c'est la même chose partout
+
+Décision de Mathis, le 31/08/2026 : **partout où Charlie recueille des
+coordonnées, on demande les mêmes champs et on exige les mêmes.** Cela couvre
+trois applications et six formulaires — cette application (newsletter et
+documents), la landing (`/contact`, sa fenêtre de capture, les pages
+d'apporteur) et le screener.
+
+**Sept champs obligatoires** : nom et prénom, email, société, téléphone,
+effectif, encours — plus le **métier**, propre à cette application et au
+screener, qui sert à segmenter les envois. Le **profil LinkedIn** est le seul
+facultatif.
+
+Ce que ça a réglé : une même personne inscrite ici puis passée par `/contact`
+produisait deux fiches inégales dans le CRM, et c'est cette disparité qui
+obligeait à rappeler pour compléter.
+
+### Trois choses à ne pas défaire
+
+- **Le nom tient en UN champ, mais la base en garde deux.** `first_name` sert à
+  personnaliser chaque envoi, et le script de la newsletter le lit chaque lundi.
+  C'est `splitFullName` (`lib/qualification.ts`) qui découpe à la réception.
+  Fondre les deux colonnes demanderait de reprendre la newsletter entière.
+
+- **Les routes acceptent `full_name` ET `first_name`/`last_name`.** Ce n'est pas
+  une hésitation : la landing nous relaie ses inscriptions, et les deux
+  applications se déploient séparément. Refuser l'ancienne forme couperait les
+  inscriptions le temps d'un décalage.
+
+- 🛑 **Les tranches d'encours et d'effectif sont recopiées à la main dans les
+  trois dépôts** (`lib/qualification.ts` ici, `app/src/lib/lead.ts` côté
+  screener, `lib/waitlist/survey-questions.ts` côté landing — c'est la source).
+  Les trois alimentent la même colonne du CRM, qui se filtre, et aucun test ne
+  peut le garantir puisque les dépôts ne partagent pas de code. **Toute retouche
+  d'un libellé se fait des trois côtés, le même jour.**
+
+### Les champs eux-mêmes ne s'écrivent qu'une fois
+
+`components/lead-fields.tsx` (l'affichage) et `lib/lead-fields.ts` (la lecture et
+la validation) sont partagés par les deux formulaires et les deux routes. Ils
+étaient deux copies, ce qui tenait à quatre champs ; à huit, la première
+divergence n'était qu'une question de temps — et une divergence ici veut dire que
+la fiche d'une personne dépend de la porte qu'elle a poussée.
