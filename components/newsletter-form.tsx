@@ -8,6 +8,7 @@ import {
   validateLeadFields,
   type LeadFieldValues
 } from "@/components/lead-fields";
+import { branding } from "@/lib/config/branding";
 
 type NewsletterResponse = {
   ok: boolean;
@@ -110,7 +111,35 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
       </button>
 
       {errorMessage ? <p className="text-sm leading-relaxed text-red-600">{errorMessage}</p> : null}
-      {successMessage ? <p className="text-sm leading-relaxed text-emerald-700">{successMessage}</p> : null}
+
+      {/* 🛑 LA PROPOSITION DE RENDEZ-VOUS N'ARRIVE QU'APRÈS L'INSCRIPTION, ET
+          C'EST TOUT L'INTÉRÊT. Deux sorties offertes en même temps, c'est la
+          première qu'on perd : le screener l'a payé le 10/08/2026 en posant un
+          bouton de réservation dans la fenêtre qui demandait les coordonnées
+          (cf. `CharlieOfferDialog`, où il a été retiré). Ici le formulaire est
+          déjà envoyé quand le lien apparaît — il ne concurrence plus rien, et
+          il tombe au moment où la personne vient de lever la main.
+
+          Il s'affiche aussi sur « déjà inscrit », qui est le cas le plus
+          parlant : quelqu'un qui revient s'inscrire une seconde fois n'a rien
+          à gagner du message seul. */}
+      {successMessage ? (
+        <div className="space-y-1.5">
+          <p className="text-sm leading-relaxed text-emerald-700">{successMessage}</p>
+          <p className="text-sm leading-relaxed text-ink-700">
+            Une question sur vos outils, ou sur ce que Charlie ferait chez vous ?{" "}
+            <a
+              href={branding.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-accent-500 underline underline-offset-2 transition hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/30"
+            >
+              Prenez trente minutes
+            </a>
+            .
+          </p>
+        </div>
+      ) : null}
 
       <p className="text-[10px] uppercase tracking-[0.14em] text-ink-500">Un email utile, sans spam.</p>
     </form>
