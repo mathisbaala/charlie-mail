@@ -125,7 +125,7 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
           à gagner du message seul. */}
       {successMessage ? (
         <div className="space-y-1.5">
-          <p className="text-sm leading-relaxed text-emerald-700">{successMessage}</p>
+          <p className="text-sm leading-relaxed text-accent-600">{successMessage}</p>
           <p className="text-sm leading-relaxed text-ink-700">
             Une question sur vos outils, ou sur ce que Charlie ferait chez vous ?{" "}
             <a
