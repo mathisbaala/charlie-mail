@@ -134,7 +134,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
   const { fieldHeightClass, fieldPaddingClass, fieldTextClass, selectRightPaddingClass, compact } =
     styles;
 
-  const inputClass = `${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
+  const inputClass = `${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
   const selectClass = `${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
   const chevronClass = `pointer-events-none absolute right-4 top-1/2 ${compact ? "h-4 w-4" : "h-5 w-5"} -translate-y-1/2 text-ink-500`;
 
