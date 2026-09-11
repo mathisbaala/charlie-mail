@@ -17,7 +17,7 @@ function ErrorState({ message }: { message: string }) {
   return (
     <main className="safe-px safe-pt safe-pb mx-auto flex min-h-[100dvh] w-full max-w-xl items-center justify-center sm:px-6 sm:py-12">
       <section className="w-full rounded-[1.125rem] border border-ink-100 bg-white p-[clamp(1rem,4.5vw,2rem)] text-center shadow-soft sm:rounded-3xl">
-        <h1 className="text-[clamp(1.25rem,6vw,1.5rem)] font-semibold leading-tight text-ink-900">Document introuvable</h1>
+        <h1 className="text-[clamp(1.25rem,6vw,1.5rem)] font-normal leading-tight text-ink-900">Document introuvable</h1>
         <p className="mt-3 text-sm leading-relaxed text-ink-500">{message}</p>
       </section>
     </main>
