@@ -35,7 +35,7 @@ export function CharlieBanner() {
         </p>
         <p className="text-[1.05rem] leading-snug text-ink-900" style={{ fontFamily: "var(--font-serif)" }}>
           La donnée patrimoniale existe déjà, Charlie la rend{" "}
-          <em style={{ fontStyle: "italic", color: "oklch(0.5 0.13 38)" }}>exploitable</em>.
+          <em className="not-italic text-accent-500">exploitable</em>.
         </p>
       </div>
     </div>

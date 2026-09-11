@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { branding } from "@/lib/config/branding";
 
-const manrope = Manrope({
+const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap"
 });
 
-const fraunces = Fraunces({
+const sourceSerif = Source_Serif_4({
   variable: "--font-serif",
   subsets: ["latin"],
   display: "swap"
@@ -38,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${manrope.variable} ${fraunces.variable} bg-ink-50 text-ink-900 antialiased`} style={{ fontFeatureSettings: '"kern" 1, "liga" 1' }}>
+      <body className={`${inter.variable} ${sourceSerif.variable} bg-ink-50 text-ink-900 antialiased`} style={{ fontFeatureSettings: '"kern" 1, "liga" 1' }}>
         {children}
       </body>
     </html>

@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  /* Fond neutre/lin aligné Charlie Prospection — surfaces quasi-achromatiques,
-     aucune teinte chaude (cf. charte Charlie Investissement). */
-  --background-soft: radial-gradient(circle at 50% -20%, oklch(0.975 0.004 90) 0%, oklch(0.965 0.005 90) 42%, oklch(0.95 0.006 90) 100%);
+  /* Fond froid-neutre aligné sur le design système Charlie (blanc/encre/vert) :
+     dégradé quasi imperceptible entre le fond de page et la surface douce. */
+  --background-soft: radial-gradient(circle at 50% -20%, #fdfefe 0%, #fafbfb 42%, #f5f6f7 100%);
 }
 
 * {
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans), "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-sans), -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-image: var(--background-soft);
   overflow-x: hidden;
 }
