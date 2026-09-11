@@ -105,7 +105,7 @@ export function NewsletterForm({ source, compact = false }: NewsletterFormProps)
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`${fieldHeightClass} w-full rounded-lg bg-ink-900 px-4 ${fieldPaddingClass} ${submitTextClass} font-medium tracking-wide leading-6 text-ink-50 transition hover:bg-ink-800 disabled:cursor-not-allowed disabled:opacity-70 sm:leading-5`}
+        className={`${fieldHeightClass} w-full rounded-lg bg-ink-900 px-4 ${fieldPaddingClass} ${submitTextClass} font-medium tracking-wide leading-6 text-ink-50 transition hover:bg-ink-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 sm:leading-5`}
       >
         {isSubmitting ? "Chargement..." : "S'inscrire à la newsletter"}
       </button>
