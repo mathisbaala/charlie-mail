@@ -201,9 +201,11 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
               customJobTitle: selectedJob === OTHER_JOB_VALUE ? values.customJobTitle : ""
             });
           }}
-          className={selectClass}
+          className={`${selectClass} ${values.jobTitle ? "" : "text-ink-500"}`}
         >
-          <option value="">Sélectionnez votre métier</option>
+          <option value="" className="text-ink-500">
+            Sélectionnez votre métier
+          </option>
           {FINANCIAL_ADVISORY_JOB_FAMILIES.map((family) => (
             <optgroup key={family.label} label={family.label}>
               {family.jobs.map((jobOption) => (
@@ -280,7 +282,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
             disabled={disabled}
             value={values.teamSize}
             onChange={(event) => set("teamSize", event.target.value)}
-            className={`${selectClass} ${values.teamSize ? "" : "text-ink-500/70"}`}
+            className={`${selectClass} ${values.teamSize ? "" : "text-ink-500"}`}
           >
             <option value="">Effectif</option>
             {TEAM_SIZES.map((option) => (
@@ -300,7 +302,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
             disabled={disabled}
             value={values.aum}
             onChange={(event) => set("aum", event.target.value)}
-            className={`${selectClass} ${values.aum ? "" : "text-ink-500/70"}`}
+            className={`${selectClass} ${values.aum ? "" : "text-ink-500"}`}
           >
             <option value="">Encours conseillé</option>
             {AUM_RANGES.map((option) => (
