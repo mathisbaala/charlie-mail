@@ -57,17 +57,30 @@ Flow newsletter:
 │   ├── newsletter/page.tsx
 │   └── page.tsx
 ├── components
+│   ├── charlie-banner.tsx     — bannière de marque, rendue en HTML/CSS (plus de bitmap)
 │   ├── lead-capture-form.tsx
+│   ├── lead-fields.tsx
 │   └── newsletter-form.tsx
 ├── lib
 │   ├── config/branding.ts
 │   ├── documents.ts
-│   └── supabase/admin.ts
+│   ├── lead-fields.ts
+│   ├── qualification.ts
+│   ├── supabase/admin.ts
+│   └── validation.ts
 ├── supabase
 │   └── schema.sql
 ├── .env.example
 └── README.md
 ```
+
+### Note sur `public/charlie-linkedin-banner.png`
+
+Ce fichier n'est référencé par aucun code, mais son URL de production a pu
+circuler (upload LinkedIn, signature). Décision du 11/09/2026 : **conservé
+volontairement** pour ne casser aucun lien externe éventuel. Il porte
+l'ancienne identité (crème/terracotta) — ne pas le réutiliser ; régénérer
+depuis `charlie-banniere` si besoin d'une bannière à jour.
 
 ## Route dynamique
 
