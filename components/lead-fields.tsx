@@ -135,7 +135,10 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
     styles;
 
   const inputClass = `${fieldHeightClass} w-full min-w-0 rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition placeholder:text-ink-500 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
-  const selectClass = `${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} text-ink-900 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
+  /* Pas de couleur de texte ici : elle dépend de l'état vide/rempli de chaque
+     select (ink-500 tant que rien n'est choisi, ink-900 ensuite). La mettre
+     dans la classe commune crée un conflit d'ordre CSS avec la conditionnelle. */
+  const selectClass = `${fieldHeightClass} w-full min-w-0 appearance-none truncate rounded-lg border border-ink-200 bg-white px-4 ${fieldPaddingClass} ${selectRightPaddingClass} ${fieldTextClass} outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20`;
   const chevronClass = `pointer-events-none absolute right-4 top-1/2 ${compact ? "h-4 w-4" : "h-5 w-5"} -translate-y-1/2 text-ink-500`;
 
   function set<K extends keyof LeadFieldValues>(key: K, value: LeadFieldValues[K]) {
@@ -201,7 +204,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
               customJobTitle: selectedJob === OTHER_JOB_VALUE ? values.customJobTitle : ""
             });
           }}
-          className={`${selectClass} ${values.jobTitle ? "" : "text-ink-500"}`}
+          className={`${selectClass} ${values.jobTitle ? "text-ink-900" : "text-ink-500"}`}
         >
           <option value="" className="text-ink-500">
             Sélectionnez votre métier
@@ -282,7 +285,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
             disabled={disabled}
             value={values.teamSize}
             onChange={(event) => set("teamSize", event.target.value)}
-            className={`${selectClass} ${values.teamSize ? "" : "text-ink-500"}`}
+            className={`${selectClass} ${values.teamSize ? "text-ink-900" : "text-ink-500"}`}
           >
             <option value="">Effectif</option>
             {TEAM_SIZES.map((option) => (
@@ -302,7 +305,7 @@ export function LeadFields({ values, onChange, disabled = false, styles }: LeadF
             disabled={disabled}
             value={values.aum}
             onChange={(event) => set("aum", event.target.value)}
-            className={`${selectClass} ${values.aum ? "" : "text-ink-500"}`}
+            className={`${selectClass} ${values.aum ? "text-ink-900" : "text-ink-500"}`}
           >
             <option value="">Encours conseillé</option>
             {AUM_RANGES.map((option) => (
